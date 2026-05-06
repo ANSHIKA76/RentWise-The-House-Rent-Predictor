@@ -49,11 +49,11 @@ The application provides:
 
 ### 🔹 Home Page
 
-![Home Page](images/homepage.jpg)
+![Home Page](images/home.jpg)
 
 ### 🔹 Prediction Result
 
-![Prediction Result](images/prediction.jpg)
+![Prediction Result](images/result.jpg)
 
 ### 🔹 Graphical Analysis
 
