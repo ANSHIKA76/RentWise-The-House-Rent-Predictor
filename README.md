@@ -28,22 +28,22 @@ Results, graphs, and recommendations are displayed
 
 Add Screenshot Here
 
-![Home Page](images/home.png)
+![Home Page](images/home.jpg)
 🔹 Prediction Result
 
 Add Screenshot Here
 
-![Prediction Result](images/result.png)
+![Prediction Result](images/result.jpg)
 🔹 Graphical Analysis
 
 Add Screenshot Here
 
-![Graphs](images/graphs.png)
+![Graphs](images/graphs.jpg)
 🔹 Dark Mode Interface
 
 Add Screenshot Here
 
-![Dark Mode](images/darkmode.png)
+![Dark Mode](images/darkmode.jpg)
 
 ## ▶️ Run the Project
 
