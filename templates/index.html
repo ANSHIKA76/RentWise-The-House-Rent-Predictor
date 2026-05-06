@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>RentWise</title>
+
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+<style>
+
+/* ===== LIGHT THEME ===== */
+body {
+    background: linear-gradient(135deg, #eef2f7, #f8fafc);
+    font-family: 'Segoe UI', sans-serif;
+}
+
+/* CARD */
+.main-card {
+    max-width: 1100px;
+    margin: 50px auto;
+    background: rgba(255,255,255,0.8);
+    backdrop-filter: blur(10px);
+    padding: 40px;
+    border-radius: 18px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+}
+
+/* TITLE */
+h2 {
+    text-align: center;
+    margin-bottom: 30px;
+    font-weight: 600;
+}
+
+/* INPUT */
+input, select {
+    width: 100%;
+    height: 46px;
+    border-radius: 10px !important;
+    border: 1px solid #d1d5db !important;
+}
+
+/* BUTTON */
+.btn-custom {
+    background: #4f46e5;
+    color: white;
+    padding: 12px 30px;
+    border-radius: 10px;
+    border: none;
+}
+
+/* RESULT */
+.result-box {
+    background: #f0fdf4;
+    padding: 18px;
+    border-radius: 10px;
+    margin-top: 25px;
+    text-align: center;
+}
+
+/* GRAPH */
+.graph-card {
+    background: #ffffff;
+    padding: 15px;
+    border-radius: 12px;
+}
+
+/* DARK MODE */
+.dark-mode {
+    background: #0f172a;
+}
+.dark-mode .main-card {
+    background: #1e293b;
+}
+.dark-mode input,
+.dark-mode select {
+    background: #0f172a !important;
+    color: white;
+    border: 1px solid #334155 !important;
+}
+.dark-mode .result-box {
+    background: #022c22;
+    color: #22c55e;
+}
+.dark-mode .graph-card {
+    background: #0f172a;
+}
+.dark-mode table {
+    background: #0f172a;
+    color: white;
+}
+.dark-mode h2 {
+    color: #f9fafb;   /* bright white */
+}
+
+.dark-mode label {
+    color: #cbd5e1;
+}
+
+.dark-mode h5 {
+    color: #f1f5f9;
+}
+
+.dark-mode h4 {
+    color: #f1f5f9;
+}
+
+.dark-mode p {
+    color: #cbd5e1;
+}
+.insight-text {
+    text-align: center;
+    margin-top: 10px;
+    color: #475569;   /* light mode */
+}
+
+/* DARK MODE FIX */
+.dark-mode .insight-text {
+    color: #e2e8f0;   /* visible in dark */
+}
+
+
+</style>
+
+<script>
+function toggleTheme() {
+    document.body.classList.toggle("dark-mode");
+}
+
+function updateSizeHint() {
+    let bhk = document.getElementById("bhk").value;
+    let size = document.getElementById("size");
+
+    if (bhk == 1) size.placeholder = "400 - 600 sqft";
+    else if (bhk == 2) size.placeholder = "700 - 1100 sqft";
+    else if (bhk == 3) size.placeholder = "1100 - 1600 sqft";
+    else if (bhk >= 4) size.placeholder = "1600+ sqft";
+}
+</script>
+
+</head>
+
+<body>
+
+<div class="main-card">
+
+<!-- DARK TOGGLE -->
+<div style="text-align:right;">
+<button onclick="toggleTheme()" class="btn btn-sm btn-outline-dark">🌓</button>
+</div>
+
+<h2>🏠 RentWise - House Rent Predictor</h2>
+
+<form action="/predict" method="post">
+
+<div class="row">
+
+<div class="col-md-6">
+<label>City</label>
+<select name="city">
+<option value="Delhi" {{ 'selected' if form_data.get('city')=='Delhi' else '' }}>Delhi</option>
+<option value="Mumbai" {{ 'selected' if form_data.get('city')=='Mumbai' else '' }}>Mumbai</option>
+<option value="Bangalore" {{ 'selected' if form_data.get('city')=='Bangalore' else '' }}>Bangalore</option>
+<option value="Hyderabad" {{ 'selected' if form_data.get('city')=='Hyderabad' else '' }}>Hyderabad</option>
+<option value="Chennai" {{ 'selected' if form_data.get('city')=='Chennai' else '' }}>Chennai</option>
+<option value="Kolkata" {{ 'selected' if form_data.get('city')=='Kolkata' else '' }}>Kolkata</option>
+<option value="Pune" {{ 'selected' if form_data.get('city')=='Pune' else '' }}>Pune</option>
+<option value="Noida" {{ 'selected' if form_data.get('city')=='Noida' else '' }}>Noida</option>
+<option value="Gurgaon" {{ 'selected' if form_data.get('city')=='Gurgaon' else '' }}>Gurgaon</option>
+</select>
+</div>
+
+<div class="col-md-6">
+<label>BHK</label>
+<input type="number" id="bhk" name="bhk"
+value="{{ form_data.get('bhk','') }}"
+oninput="updateSizeHint()">
+</div>
+
+<div class="col-md-6">
+<label>Size</label>
+<input type="number" id="size" name="size"
+value="{{ form_data.get('size','') }}">
+</div>
+
+<div class="col-md-6">
+<label>Bathrooms</label>
+<input type="number" name="bathrooms"
+value="{{ form_data.get('bathrooms','') }}">
+</div>
+
+<div class="col-md-6">
+<label>Furnishing</label>
+<select name="furnishing_status">
+<option {{ 'selected' if form_data.get('furnishing_status')=='Furnished' else '' }}>Furnished</option>
+<option {{ 'selected' if form_data.get('furnishing_status')=='Semi-Furnished' else '' }}>Semi-Furnished</option>
+<option {{ 'selected' if form_data.get('furnishing_status')=='Unfurnished' else '' }}>Unfurnished</option>
+</select>
+</div>
+
+<div class="col-md-6">
+<label>Area Type</label>
+<select name="area_type">
+<option {{ 'selected' if form_data.get('area_type')=='Super Area' else '' }}>Super Area</option>
+<option {{ 'selected' if form_data.get('area_type')=='Carpet Area' else '' }}>Carpet Area</option>
+</select>
+</div>
+
+<div class="col-md-6">
+<label>Tenant</label>
+<select name="tenant_preferred">
+<option {{ 'selected' if form_data.get('tenant_preferred')=='Bachelors' else '' }}>Bachelors</option>
+<option {{ 'selected' if form_data.get('tenant_preferred')=='Family' else '' }}>Family</option>
+</select>
+</div>
+
+<div class="col-md-6">
+<label>Floor</label>
+<input type="number" name="floor_level"
+value="{{ form_data.get('floor_level','') }}">
+</div>
+
+</div>
+
+<div class="text-center mt-3">
+<button class="btn-custom">🔍 Predict</button>
+</div>
+
+</form>
+
+{% if results %}
+<div class="result-box">
+<h4>{{ results }}</h4>
+</div>
+
+<!--  INSIGHT -->
+{% if insight %}
+<div class="insight-text">
+     {{ insight }}
+</div>
+{% endif %}
+
+
+<!-- RECOMMENDATION TABLE -->
+{% if recommendations %}
+<div style="margin-top:20px;">
+<h5>💡 Recommended Options</h5>
+
+<table class="table table-bordered table-sm">
+<thead>
+<tr>
+<th>City</th>
+<th>BHK</th>
+<th>Rent</th>
+</tr>
+</thead>
+<tbody>
+{% for item in recommendations %}
+<tr>
+<td>{{ item.City }}</td>
+<td>{{ item.BHK }}</td>
+<td>₹{{ item.Rent }}</td>
+</tr>
+{% endfor %}
+</tbody>
+</table>
+</div>
+{% endif %}
+
+<div class="row mt-4">
+
+<div class="col-md-6">
+<div class="graph-card">
+{{ graph1 | safe }}
+</div>
+</div>
+
+<div class="col-md-6">
+<div class="graph-card">
+{{ graph2 | safe }}
+</div>
+</div>
+
+</div>
+{% endif %}
+
+</div>
+
+</body>
+</html>
